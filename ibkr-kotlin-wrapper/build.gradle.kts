@@ -1,3 +1,6 @@
+// Enable JUnit 5 for all test tasks
+tasks.withType<Test> {
+}
 plugins {
     kotlin("jvm") version "1.9.22"
     `maven-publish`
@@ -13,10 +16,20 @@ repositories {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation(files("libs/ibapi.jar")) // IB API Java JAR dependency
+    // Unit testing
+    testImplementation("org.jetbrains.kotlin:kotlin-test")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
+    testImplementation("io.mockk:mockk:1.13.10")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.2")
 }
 
 kotlin {
     jvmToolchain(17)
+    sourceSets["test"].kotlin.srcDirs("src/test/kotlin")
+}
+// Enable JUnit 5 for all test tasks
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     compilerOptions {
@@ -49,7 +62,7 @@ publishing {
                     developer {
                         id.set("anooplab")
                         name.set("Anoop Gopalakrishnan")
-                        email.set("anoop@anooplab.com")
+                        email.set("anoopg87@gmail.com")
                     }
                 }
                 scm {
